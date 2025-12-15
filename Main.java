@@ -65,11 +65,37 @@ public class Main {
     // ======== 10 REQUIRED METHODS (Students fill these) ========
 
     public static String mostProfitableCommodityInMonth(int month) {
-        return "DUMMY"; 
+        int total;
+        int maxProfit=0;
+        int index=-1;
+        if(month>=0&&month<12) {
+            for (int i = 0; i < 5; i++) {
+                total = 0;
+                for (int j = 0; j < 28; j++) {
+                    total += profits[month][j][i];
+                }
+                if (total > maxProfit) {
+                    maxProfit = total;
+                    index = i;
+                }
+            }
+            return commodities[index]+" "+maxProfit;
+        }
+        else {
+            return "INVALID_MONTH";
+        }
     }
 
     public static int totalProfitOnDay(int month, int day) {
-        return 1234;
+        int totalProfit=0;
+        if(month>=0&&month<12&&day>=1&&day<=28) {
+            for (int i = 0; i < 5; i++) {
+                totalProfit += profits[month][day-1][i];
+            }
+            return totalProfit;
+        }
+        else return -99999;
+
     }
 
     public static int commodityProfitInRange(String commodity, int from, int to) {
@@ -107,6 +133,8 @@ public class Main {
     public static void main(String[] args) {
         loadData();
         System.out.println("Data loaded – ready for queries");
-        infoS();
+        //infoS();
+        System.out.println(mostProfitableCommodityInMonth(1));
+        System.out.println(totalProfitOnDay(0,1));
     }
 }
