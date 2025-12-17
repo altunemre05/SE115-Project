@@ -98,23 +98,25 @@ public class Main {
 
     }
 
-   /*  public static int commodityProfitInRange(String commodity, int from, int to) {
-        int index=-1;
-        int total;
-        if(from>=1&&from<=28&&to>=1&&to<=28&&commodity)
-        for(int i=0;i<5;i++){
-            if(commodity.equals(commodities[i])){
-                index=i;
-                break;
+     public static int commodityProfitInRange(String commodity, int from, int to) {
+        int commIndex=-1;
+        int total=0;
+          if(from>to) return -99999;
+          if(from<1||from>28||to>28) return -99999;
 
-            }
-        }
-        for(int i=from;i<=to;i++){
-            total+=profits[][][];
-        }
-
-        return 1234;
-    } */
+         for (int i = 0; i < 5; i++) {
+             if (commodities[i].equals(commodity)) {
+                 commIndex = i;
+             }
+         }
+         if(commIndex==-1) return -99999;
+         for(int m=0;m<12;m++) {
+             for (int i = from - 1; i <= to - 1; i++) {
+                 total+=profits[m][i][commIndex];
+             }
+         }
+        return total;
+    }
 
     public static int bestDayOfMonth(int month) {
         int maxProfit=0;
@@ -162,12 +164,51 @@ public class Main {
         return months[bestMonthIndex];
     }
 
-    public static int consecutiveLossDays(String comm) { 
-        return 1234; 
+    public static int consecutiveLossDays(String comm) {
+        int commIndex=-1;
+        int streakDays=0;
+        int longestStreakDays=0;
+        for (int i = 0; i < 5; i++) {
+            if (commodities[i].equals(comm)) {
+                commIndex = i;
+            }
+        }
+        if(commIndex==-1) return -1;
+        for(int m=0;m<12;m++){
+            for(int d=0;d<28;d++){
+                if(profits[m][d][commIndex]<0) {
+                    streakDays++;
+                    if(streakDays>longestStreakDays) {
+                        longestStreakDays=streakDays;
+                       // System.out.println(m+" "+d); // Hangi ayın hangi gunlerinde serinin arttigini görebilmek ve test etmek için.//
+                    }
+                }
+                else streakDays=0;
+            }
+        }
+        return longestStreakDays;
     }
     
-    public static int daysAboveThreshold(String comm, int threshold) { 
-        return 1234; 
+    public static int daysAboveThreshold(String comm, int threshold) {
+        int daysAbove=0;
+        int commIndex=-1;
+
+        for (int i = 0; i < 5; i++) {
+            if (commodities[i].equals(comm)) {
+                commIndex = i;
+            }
+        }
+        if(commIndex==-1) return -1;
+
+         for(int m=0;m<12;m++) {
+        for(int d=0;d<28;d++) {
+            if (profits[m][d][commIndex]>threshold) {
+                daysAbove++;
+                System.out.println(m+" "+d);
+            }
+         }
+        }
+        return daysAbove;
     }
 
     public static int biggestDailySwing(int month) { 
@@ -188,8 +229,10 @@ public class Main {
         //infoS();
         System.out.println(mostProfitableCommodityInMonth(1));
         System.out.println(totalProfitOnDay(0,1));
-
+        System.out.println(commodityProfitInRange("Gold",1,1));
         System.out.println(bestDayOfMonth(3));
-        System.out.println(bestMonthForCommodity("COOOper"));
+        System.out.println(bestMonthForCommodity("Gold"));
+        System.out.println(consecutiveLossDays("Gold"));
+        System.out.println(daysAboveThreshold("Gold",5800));
     }
 }
