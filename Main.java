@@ -9,7 +9,7 @@ public class Main {
     static String[] commodities = {"Gold", "Oil", "Silver", "Wheat", "Copper"};
     static String[] months = {"January","February","March","April","May","June",
                               "July","August","September","October","November","December"};
-    static int[][][] profits=new int[12][28][5];
+    static int[][][] profits=new int[MONTHS][DAYS][COMMS];
     
 
     // ======== REQUIRED METHOD LOAD DATA (Students fill this) ========
@@ -204,29 +204,111 @@ public class Main {
         for(int d=0;d<28;d++) {
             if (profits[m][d][commIndex]>threshold) {
                 daysAbove++;
-                System.out.println(m+" "+d);
+              //  System.out.println(m+" "+d); //Hangi ayın hangi gununde degerin uzerine cikildigini gorup test etmek icin.//
             }
          }
         }
         return daysAbove;
     }
 
-    public static int biggestDailySwing(int month) { 
-        return 1234; 
+    public static int biggestDailySwing(int month) {
+        int total1=0;
+        int total2=0;
+        int totalSwing=0;
+        int biggestDiff=0;
+
+        for(int i=0;i<5;i++){
+            total1+=profits[month][0][i];
+        }
+
+        if(month>=0&&month<12){
+            for(int d=1;d<28;d++){
+                 total2=0;
+                for(int c=0;c<5;c++){
+                        total2 += profits[month][d][c];
+
+                }
+                if(total2>total1)  totalSwing=total2-total1;
+                else totalSwing=total1-total2;
+
+                total1=total2;
+
+                if(totalSwing>biggestDiff) {
+                    biggestDiff=totalSwing;
+                   // System.out.println((d)+" "+(d+1)+" "+totalSwing);  //Hangi gunlerde guncellenen aradaki en yuksek farkı test etmek icin.//
+                }
+
+            }
+
+            return biggestDiff;
+        }
+        else return -99999;
     }
     
-    public static String compareTwoCommodities(String c1, String c2) { 
-        return "DUMMY is better by 1234"; 
+    public static String compareTwoCommodities(String c1, String c2) {
+        int index1=-1;
+        int index2=-1;
+        int c1Total=0;
+        int c2Total=0;
+
+        for (int i = 0; i < 5; i++) {
+            if (commodities[i].equals(c1)) {
+                index1 = i;
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            if (commodities[i].equals(c2)) {
+                index2 = i;
+            }
+        }
+        for(int m=0;m<12;m++) {
+            for(int d=0;d<28;d++){
+                c1Total+=profits[m][d][index1];
+            }
+        }
+        for(int m=0;m<12;m++) {
+            for(int d=0;d<28;d++){
+                c2Total+=profits[m][d][index2];
+            }
+        }
+        if(c1Total>c2Total) return c1+" is better by "+(c1Total-c2Total);
+        else if(c2Total>c1Total) return c2+" is better by "+(c2Total-c1Total);
+        else return "c1 is equal to c2.";
+
     }
     
-    public static String bestWeekOfMonth(int month) { 
-        return "DUMMY"; 
+    public static String bestWeekOfMonth(int month) {
+       int weekIndex=0;
+       int bestWIndex=-1;
+       int total=0;
+       int maxProfit=-999999;
+
+       if(month>=0&&month<12) {
+           for (int d = 0; d < 28; d++) {
+               for (int c = 0; c < 5; c++) {
+                   total += profits[month][d][c];
+               }
+               if ((d + 1) % 7 == 0) {
+                   weekIndex++;
+                //   System.out.println(total); //Hafta basi olan toplam karı görebilmek ve methodu test etmek icin.//
+                   if (total > maxProfit) {
+                       maxProfit = total;
+                       bestWIndex = weekIndex;
+                   }
+                   total = 0;
+               }
+           }
+           return "Week "+bestWIndex+" "+maxProfit;
+       }
+       else return "INVALID_MONTH";
     }
 
     public static void main(String[] args) {
         loadData();
         System.out.println("Data loaded – ready for queries");
-        //infoS();
+
+        //infoS(); //Yuklenen verilerin dogru sekilde yuklenip yuklenmedigini test edebilmek icin.//
+
         System.out.println(mostProfitableCommodityInMonth(1));
         System.out.println(totalProfitOnDay(0,1));
         System.out.println(commodityProfitInRange("Gold",1,1));
@@ -234,5 +316,8 @@ public class Main {
         System.out.println(bestMonthForCommodity("Gold"));
         System.out.println(consecutiveLossDays("Gold"));
         System.out.println(daysAboveThreshold("Gold",5800));
+        System.out.println(biggestDailySwing(0));
+        System.out.println(compareTwoCommodities("Gold","Copper"));
+        System.out.println(bestWeekOfMonth(0));
     }
 }
