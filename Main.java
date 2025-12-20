@@ -46,7 +46,7 @@ public class Main {
             }
         }
     }
-    public static void infoS() {
+  /*  public static void infoS() {
         for (int i = 0; i < 12; i++) {
 
             for(int j=0;j<28;j++){
@@ -59,7 +59,7 @@ public class Main {
             }
 
         }
-    }
+    } */
 
 
     // ======== 10 REQUIRED METHODS (Students fill these) ========
@@ -308,7 +308,7 @@ public class Main {
         System.out.println("Data loaded – ready for queries");
 
         //infoS(); //Yuklenen verilerin dogru sekilde yuklenip yuklenmedigini test edebilmek icin.//
-
+                         //TESTS//
         System.out.println(mostProfitableCommodityInMonth(1));
         System.out.println(totalProfitOnDay(0,1));
         System.out.println(commodityProfitInRange("Gold",1,1));
