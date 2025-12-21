@@ -19,7 +19,7 @@ public class Main {
             Scanner reader = null;
 
             try {
-                reader = new Scanner(Paths.get("Data_Files/" + months[m] + ".txt"));
+                reader = new Scanner(Paths.get("Data_Files/"+ months[m] + ".txt"));
 
                 String line;
                 line = reader.nextLine();
@@ -45,7 +45,6 @@ public class Main {
                     }
                 }
                 catch (Exception e) {
-                    System.out.println("Error.");
 
                 }
                 finally {
@@ -298,16 +297,6 @@ public class Main {
     public static void main(String[] args) {
         loadData();
         System.out.println("Data loaded – ready for queries");
-        //TESTS//
-        System.out.println(mostProfitableCommodityInMonth(1));
-        System.out.println(totalProfitOnDay(0,1));
-        System.out.println(commodityProfitInRange("Gold",1,1));
-        System.out.println(bestDayOfMonth(3));
-        System.out.println(bestMonthForCommodity("Gold"));
-        System.out.println(consecutiveLossDays("Gold"));
-        System.out.println(daysAboveThreshold("Gold",5800));
-        System.out.println(biggestDailySwing(0));
-        System.out.println(compareTwoCommodities("Gold","Copper"));
-        System.out.println(bestWeekOfMonth(0));
+
     }
 }
